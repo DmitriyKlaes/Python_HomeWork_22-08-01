@@ -129,3 +129,26 @@ def print_phonebook(print_type):
             for key, value in row[1].items():
                 print(key, ':', value)
             print()
+            
+            
+def create_phonebook(): 
+    headers = ['Отдел', 'Должность', 'Фамилия', 'Имя', 'Телефон', 'Дата рождения', 'Примечание']    
+    print('\nСтандартные поля для заполнения:')
+    print(', '.join(headers))
+    choice = correct_value('\nЖелаете их изменить? \
+                            \n1. Да \
+                            \n2. Нет \
+                            \nВыбор: ')
+    if choice == 1:
+        complite = change_headers(headers)
+        while complite == 3:
+            complite = change_headers(headers)
+        if complite == 2:
+            headers = ['Фамилия', 'Имя', 'Телефон', 'Описание']
+    print('\nСоздан телефонный справочник с полями: ')
+    print(', '.join(headers))
+    log_new(list_phonebook(), headers)
+    with open('base_workers.csv', 'w', encoding='utf8',  newline='') as file:
+        writer = dw(file, fieldnames=headers)
+        writer.writeheader()
+
