@@ -1,6 +1,6 @@
 from csv import DictReader as dr
 from csv import DictWriter as dw
-from input_rules import correct_value, default_value
+from input_rules import correct_value, default_value, deportaments, positions
 from logger import log_fill, log_change_previos, log_change, log_delete
 
 def static_headers():
@@ -18,8 +18,11 @@ def fill_workers():
     with open('base_workers.csv', 'r+', encoding='utf8',  newline='') as file:
         headers = dr(file)
         writer = dw(file, fieldnames=headers.fieldnames)
-        next_row = {}
-        next_row = {field: default_value(input(f'{field}: ').title()) for field in headers.fieldnames}
+        dep = deportaments()
+        pos = positions(dep)
+        part_1 = {headers.fieldnames[0]: dep, headers.fieldnames[1]: pos}
+        part_2 = {field: default_value(input(f'{field}: ').title()) for field in headers.fieldnames[2:]}
+        next_row = {**part_1, **part_2}
         writer.writerow(next_row)
     log_fill(next_row)
     
@@ -32,9 +35,18 @@ def change_workers():
         print(position, ':', value)
     key = correct_value('Выберете поле записи для изменения: ', len(list_data[int(entry)-1]))
     key = static_headers()[key - 1]
-    list_data[entry - 1][key] = input(f'Заполните поле "{key}": ').title()
+    temp_key = list_data[entry - 1][key]
+    if key == 'Отдел':
+        list_data[entry - 1][key] = deportaments()
+        if list_data[entry - 1][key] != temp_key:
+            print(f'Выберете должность из отдела {list_data[entry - 1][key]}')
+            list_data[entry - 1]['Должность'] = positions(list_data[entry - 1][key])            
+    elif key == 'Должность':        
+        list_data[entry - 1][key] = positions(list_data[entry - 1]['Отдел'])
+    else:
+        list_data[entry - 1][key] = input(f'Заполните поле "{key}": ').title()
     log_change(key, list_data[entry - 1][key])
-    with open('phonebook.csv', 'w', encoding='utf8',  newline='') as file:
+    with open('base_workers.csv', 'w', encoding='utf8',  newline='') as file:
         writer = dw(file, fieldnames=static_headers())
         writer.writeheader()
         writer.writerows(list_data)
@@ -69,3 +81,6 @@ def print_workers():
     #         for key, value in row[1].items():
     #             print(key, ':', value)
     #         print()
+# fill_workers()
+# change_workers()
+change_workers()

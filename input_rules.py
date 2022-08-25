@@ -13,22 +13,28 @@ def default_value(string):
         return string
 
 
-def dep_and_pos():
-    all_values = {'Директорат': ['Генеральный директор', 'Личный помощник'], 
-                  'Финансовый отдел': ['Бухгалтер', 'Помощник бухгалтера'], 
-                  'IT Отдел': ['Руководитель IT', 'Программист', 'Тестировщик'], 
-                  'Инженерный отдел': ['Главный инженер', 'Сброрщик'], 
-                  'Маркетинговый отдел': ['Маркетолог', 'Аналитик'], 
-                  'Отдел продаж': ['Руководитель отдела продаж', 'Менеджер']}
-    list_dep = list(all_values.keys())
-    print(list_dep)
-    for id, dep in enumerate(list_dep, 1):
-        print(f'{id}: {dep}')
+def dep_and_pos_list():
+    return {'Директорат': ['Генеральный директор', 'Личный помощник'], 
+            'Финансовый отдел': ['Бухгалтер', 'Помощник бухгалтера'], 
+            'IT Отдел': ['Руководитель IT', 'Программист', 'Тестировщик'], 
+            'Инженерный отдел': ['Главный инженер', 'Сброрщик'], 
+            'Маркетинговый отдел': ['Маркетолог', 'Аналитик'], 
+            'Отдел продаж': ['Руководитель отдела продаж', 'Менеджер']}
+
+
+def deportaments():
+    list_dep = list(dep_and_pos_list().keys())
+    for id, dep in enumerate(dep_and_pos_list().keys(), 1):
+        print(f'{id}: {dep}')    
     key = correct_value('Выберете отдел: ', len(list_dep))
     dep = list_dep[key-1]
-    for id, pos in enumerate(all_values[list_dep[key-1]], 1):
+    return dep
+
+
+def positions(key):
+    for id, pos in enumerate(dep_and_pos_list()[key], 1):
         print(f'{id}: {pos}')
-    value = correct_value('Выберете должность: ', len(all_values[list_dep[key-1]]))
-    pos = all_values[list_dep[value-1]]
-    return dep, pos
+    value = correct_value('Выберете должность: ', len(dep_and_pos_list()[key]))
+    pos = dep_and_pos_list()[key][value-1]
+    return pos
 
