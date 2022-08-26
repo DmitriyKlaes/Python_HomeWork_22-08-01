@@ -13,7 +13,7 @@ while True:
     if command == 1:
         dict_command[command]()
         input('\nДля выхода в главное меню нажмите Enter...')
-    elif command == 7:
+    elif command == 6:
         break
     elif command != 6:
         dict_command[command]()

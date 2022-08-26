@@ -22,10 +22,13 @@ def log_change_previos(entry):
         file.write(f'{time[:-7]} --ИЗМЕНЕНИЕ-- В записи {entry}\n\t\t\t\t\t\t\t\t\t')
 
 
-def log_change(field, value):
-    with open('log.txt', 'a', encoding='utf8') as file:
-        file.write(f'изменено поле "{field}" на "{value}"\n')
-        
+def log_change(field, value, add = 1):
+    with open('log.txt', 'a', encoding='utf8') as file:      
+        if add == 2:
+            file.write(f'\t\t\t\t\t\t\t\t\tизменено поле "{field}" на "{value}"\n')
+        else:
+            file.write(f'изменено поле "{field}" на "{value}"\n')
+            
         
 def log_delete(entry):
     time = str(dt.now())

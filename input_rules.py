@@ -24,17 +24,19 @@ def dep_and_pos_list():
 
 def deportaments():
     list_dep = list(dep_and_pos_list().keys())
+    print(f'\nОтделы:')
     for id, dep in enumerate(dep_and_pos_list().keys(), 1):
         print(f'{id}: {dep}')    
-    key = correct_value('Выберете отдел: ', len(list_dep))
+    key = correct_value('\nВыберете отдел: ', len(list_dep))
     dep = list_dep[key-1]
     return dep
 
 
 def positions(key):
+    print(f'\nДолжности из отдела "{key}":')
     for id, pos in enumerate(dep_and_pos_list()[key], 1):
         print(f'{id}: {pos}')
-    value = correct_value('Выберете должность: ', len(dep_and_pos_list()[key]))
+    value = correct_value('\nВыберете должность: ', len(dep_and_pos_list()[key]))
     pos = dep_and_pos_list()[key][value-1]
     return pos
 
