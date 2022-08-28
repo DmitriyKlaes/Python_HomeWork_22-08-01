@@ -23,7 +23,7 @@ def fill_interface():
         move = correct_value('\n1. Добавить еще одного сотрудника \
                               \n2. Вернуться в главное меню \
                               \nВыбор: ')
-        print()
+        print()        
         if move == 2:
             flag = 0
             
@@ -70,3 +70,23 @@ def delete_interface():
         if move == 2:
             flag = 0
             
+            
+def search_interface():
+    if list_workers() == []:
+        print('\nОтсутствуют записи о сотрудниках!')
+        input('\nДля выхода в главное меню нажмите Enter...')
+        return
+    print('\n---Режим поиска---')
+    flag = 1
+    while flag:
+        del_workers()
+        print_workers()
+        if list_workers() == []:
+            input('\nДля выхода в главное меню нажмите Enter...')
+            return
+        move = correct_value('\n1. Удалить еще одну запись \
+                              \n2. Вернуться в главное меню \
+                              \nВыбор: ')
+        print()
+        if move == 2:
+            flag = 0
