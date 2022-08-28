@@ -1,4 +1,5 @@
-from data import list_workers, fill_workers, change_workers, del_workers, print_workers
+from data import list_workers, fill_workers, change_workers, del_workers, print_workers, \
+                 data_search, data_field, search_print
 from input_rules import correct_value
 
 
@@ -8,7 +9,7 @@ def start_menu():
                                  \n2. Добавление нового сотрудника \
                                  \n3. Изменение записей о сотрудниках \
                                  \n4. Удаление записи о сотруднике \
-                                 \n5. Выборочный поиск \
+                                 \n5. Поиск и сортировка \
                                  \n6. Закончить работу \
                                  \nВведите команду: ', 6)
     return menu_position
@@ -77,16 +78,21 @@ def search_interface():
         input('\nДля выхода в главное меню нажмите Enter...')
         return
     print('\n---Режим поиска---')
-    flag = 1
-    while flag:
-        del_workers()
-        print_workers()
-        if list_workers() == []:
+    list_data = list_workers()
+    all_searching_rules = []
+    while True:
+        list_data, search_rules = data_search(list_data)
+        if list_data == []:
+            print('\nНичего не найдено.')
             input('\nДля выхода в главное меню нажмите Enter...')
             return
-        move = correct_value('\n1. Удалить еще одну запись \
-                              \n2. Вернуться в главное меню \
+        all_searching_rules.append(search_rules)
+        move = correct_value('\n1. Добавить ещё один критерий \
+                              \n2. Продолжить \
                               \nВыбор: ')
-        print()
         if move == 2:
-            flag = 0
+            break
+    sort_fields = data_field()
+    search_print(list_data, sort_fields, all_searching_rules)
+    input('\nДля выхода в главное меню нажмите Enter...')
+    return

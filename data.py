@@ -68,9 +68,10 @@ def del_workers():
 def data_search(list_data):
     list_fields = static_headers()
     list_pos = [value for pos in dep_and_pos_list().values() for value in pos]
+    print()
     for id, field in enumerate(list_fields, 1):
         print(f'{id}: {field}')
-    search_field = correct_value('По каким полям выполнить поиск: ', len(list_fields))
+    search_field = correct_value('\nПо каким полям выполнить поиск: ', len(list_fields))
     if search_field == 1:
         dep = deportaments()
         for_search = (list_fields[search_field - 1], dep)
@@ -82,7 +83,7 @@ def data_search(list_data):
     else:
         value = input(f'Введите значение для поиска в поле "{list_fields[search_field - 1]}": ').capitalize()
         for_search = (list_fields[search_field - 1], value)
-    return [entry for entry in list_data if for_search in entry.items()]
+    return [entry for entry in list_data if for_search in entry.items()], for_search
     
 
 def data_field():
@@ -90,22 +91,31 @@ def data_field():
     dict_fields[len(dict_fields) + 1] = '---Закончить выбор---'
     length = len(dict_fields)
     list_for_print = []
-    while True:
-        for value in dict_fields.items():
-            print(f'{value[0]}: {value[1]}')
-        print('\nВыбранные поля: ', end = '')
-        print(', '.join(list_for_print))
-        index = correct_value('\nВыберете поле для отображения: ', length)
-        print()
-        if index == length or index not in dict_fields.keys():
-            break
-        list_for_print.append(dict_fields[index])
-        dict_fields.pop(index)
-    return [value for value in static_headers() if value in list_for_print]
+    move = correct_value('\n1. Выбрать поля для отображения \
+                          \n2. Отобразить все поля \
+                          \nВыбор: ')
+    if move == 1:
+        while True:
+            print()
+            for value in dict_fields.items():
+                print(f'{value[0]}: {value[1]}')
+            print('\nВыбранные поля для отображения: ', end = '')
+            print(', '.join(list_for_print))
+            index = correct_value('\nВыберете поле для отображения: ', length)
+            if index == length or index not in dict_fields.keys():
+                break
+            list_for_print.append(dict_fields[index])
+            dict_fields.pop(index)
+        return [value for value in static_headers() if value in list_for_print]
+    else:
+        return static_headers()
     
 
-def search_print(sort_fields, list_data):
-    print(f'ID: ', end = '')
+def search_print(list_data, sort_fields, search_rules):
+    print(f'\nВыполнен поиск по следующим критериям:')
+    for key, value in search_rules:
+        print(f'{key}: {value}')
+    print(f'\nID: ', end = '')
     print('; '.join(sort_fields))
     for row in enumerate(list_data, 1):
         row_for_print = {key: value for key, value in row[1].items() if key in sort_fields}
@@ -126,39 +136,3 @@ def print_workers():
         list_values = list(row[1].values())
         print(f'{row[0]}: ', end = '')
         print('; '.join(list_values))
-
-search_data = data_search(list_workers())
-search_fields = data_field()
-search_print(search_fields, search_data)
-
-
-# print(data_search(list_data, list_fields))
-
-
-# print(dep_and_pos_list())
-
-# a = data_search()
-# b = data_field()
-# search_print(b,a)
-# search_positions = data_search()
-# list_data = list_workers()
-
-# list_dict = [{1:11, 2:22}, {3:33, 4:44}]
-# dict_1 = [(1, 11), (2, 22)]
-# search_list = [entry for entry in list_dict if dict_1 in entry.items()]
-# print(search_list)
-# print(list_dict[0].items())
-
-# a = {1:11, 2:22, 3:33, 4:44}
-# b = (1,11)
-
-# # print(b if b in a.items())
-# for i in a.items():
-#     if b == i:
-#         print(i)
-
-
-# print_workers()
-# print(a)
-# print(b)
-# search_print()

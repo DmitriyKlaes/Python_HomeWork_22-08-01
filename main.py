@@ -1,4 +1,4 @@
-from interface import start_menu, fill_interface, change_interface, delete_interface
+from interface import start_menu, fill_interface, change_interface, delete_interface, search_interface
 from data import print_workers
 
 
@@ -6,7 +6,7 @@ dict_command = {1 : print_workers,
                 2 : fill_interface,
                 3 : change_interface,
                 4 : delete_interface,
-                5 : print('netu')}
+                5 : search_interface}
 
 while True:
     command = start_menu()
@@ -17,4 +17,3 @@ while True:
         break
     elif command != 6:
         dict_command[command]()
-
